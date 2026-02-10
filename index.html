@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>You Got Mail! 💌</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #ffeef2;
+        font-family: "Press Start 2P", cursive;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        text-align: center;
+        color: #d63384;
+        overflow: hidden;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      img {
+        max-width: 80%;
+        height: auto;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        border: 4px solid #fff;
+        box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn {
+        background-color: #fff;
+        color: #d63384;
+        border: 4px solid #d63384;
+        padding: 15px 20px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        cursor: pointer;
+        box-shadow: 4px 4px 0px #ffb3c1;
+        margin: 10px;
+        text-decoration: none;
+        display: inline-block;
+        touch-action: manipulation;
+      }
+
+      /* Spotify Button Styling */
+      .spotify-btn {
+        background-color: #1db954; /* Spotify Green */
+        color: white;
+        border-color: #191414;
+        box-shadow: 4px 4px 0px #128c3d;
+        font-size: 11px;
+        margin-top: 20px;
+      }
+
+      #yes-btn {
+        background-color: #b2f5ea;
+        color: #2c7a7b;
+        border-color: #319795;
+        z-index: 100;
+      }
+
+      #no-btn {
+        background-color: #fed7d7;
+        color: #c53030;
+        border-color: #e53e3e;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .heart {
+        position: fixed;
+        top: -20px;
+        font-size: 20px;
+        z-index: 999;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="screen-mail" class="container">
+      <h1>You got mail! 📩</h1>
+      <img
+        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemcwYjlzdTBpOW56cGlvdHR0dnB1cTNpZWpjbmNvdnV4c3N1ejlvOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/6wcBC9tsubD5jrDL6g/giphy.gif"
+        alt="Mail Envelope"
+      />
+      <button class="btn" onclick="openLetter()">OPEN MAIL</button>
+    </div>
+
+    <div id="screen-question" class="container hidden">
+      <h1>Will you be my Valentine?</h1>
+      <img
+        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBiY2gxZ2lkbW44a3ByNmo4YWgzd2NzbzQ1cncyd3B4MHhrbHF6cCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Q6WPVzFU8LcBWWgQE1/giphy.gif"
+        alt="Asking"
+      />
+      <div class="choices">
+        <button id="yes-btn" class="btn" onclick="acceptLove()">YES</button>
+        <button id="no-btn" class="btn" onclick="denyLove()">NO</button>
+      </div>
+    </div>
+
+    <div id="screen-success" class="container hidden">
+      <h1>YAY! ❤️</h1>
+      <img
+        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzBvejZlNTgwaWdydGRzazVxd2t2NmRlZHc2Z3NxdDR3aW12ZHB4YyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JWGgsu82QDoEE/giphy.gif"
+        alt="Happy Cat"
+      />
+
+      <a
+        href="https://open.spotify.com/track/75W3SngKzTuoQ94uLf3y82?si=00851e060a4b4011"
+        class="btn spotify-btn"
+        target="_blank"
+      >
+        That's how it works... 🎵
+      </a>
+    </div>
+
+    <script>
+      let currentPadding = 15;
+      let currentFontSize = 10;
+
+      function openLetter() {
+        document.getElementById("screen-mail").classList.add("hidden");
+        document.getElementById("screen-question").classList.remove("hidden");
+      }
+
+      function denyLove() {
+        const yesBtn = document.getElementById("yes-btn");
+        currentPadding += 15;
+        currentFontSize += 4;
+        yesBtn.style.padding = `${currentPadding}px ${currentPadding * 1.5}px`;
+        yesBtn.style.fontSize = `${currentFontSize}px`;
+
+        const phrases = [
+          "No",
+          "Are you sure?",
+          "Think again!",
+          "Wait!",
+          "Wrong button!",
+        ];
+        document.getElementById("no-btn").innerText =
+          phrases[Math.floor(Math.random() * phrases.length)];
+      }
+
+      function acceptLove() {
+        document.getElementById("screen-question").classList.add("hidden");
+        document.getElementById("screen-success").classList.remove("hidden");
+        spawnHearts();
+      }
+
+      function spawnHearts() {
+        const emojis = ["💖", "💕", "🌹", "✨"];
+        setInterval(() => {
+          const h = document.createElement("div");
+          h.className = "heart";
+          h.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+          h.style.left = Math.random() * 100 + "vw";
+          const duration = Math.random() * 3 + 2;
+          h.style.transition = `top ${duration}s linear, opacity ${duration}s`;
+          document.body.appendChild(h);
+          setTimeout(() => {
+            h.style.top = "110vh";
+            h.style.opacity = "0";
+          }, 50);
+          setTimeout(() => h.remove(), duration * 1000);
+        }, 300);
+      }
+    </script>
+  </body>
+</html>
